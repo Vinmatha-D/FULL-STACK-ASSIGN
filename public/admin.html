@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlinkGo | Admin Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Admin Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-logo">Blink<span>Go</span></div>
+      </a>
+      <div style="font-weight: 700; font-size: 16px; color: var(--primary);">
+        <i class="fa-solid fa-gauge-high"></i> Admin Control Center
+      </div>
+      <div class="nav-actions">
+        <a href="index.html" class="btn-nav">
+          <i class="fa-solid fa-store"></i> Back to Storefront
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Admin Content Container -->
+  <main class="admin-container">
+    
+    <!-- KPI Stats Cards -->
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+        <div class="stat-info">
+          <h4>Total Revenue</h4>
+          <div class="num" id="statRevenue">₹0</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-truck-ramp-box"></i></div>
+        <div class="stat-info">
+          <h4>Total Orders</h4>
+          <div class="num" id="statOrders">0</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+        <div class="stat-info">
+          <h4>Products Count</h4>
+          <div class="num" id="statProducts">0</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background: #fef2f2; color: #dc2626;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="stat-info">
+          <h4>Out of Stock</h4>
+          <div class="num" id="statOutOfStock">0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Tabs -->
+    <div class="admin-tabs">
+      <button class="tab-btn active" id="tabProductsBtn" onclick="switchTab('products')">
+        <i class="fa-solid fa-box"></i> Products Management
+      </button>
+      <button class="tab-btn" id="tabCategoriesBtn" onclick="switchTab('categories')">
+        <i class="fa-solid fa-layer-group"></i> Categories Management
+      </button>
+      <button class="tab-btn" id="tabOrdersBtn" onclick="switchTab('orders')">
+        <i class="fa-solid fa-clipboard-list"></i> Live Orders Control
+      </button>
+    </div>
+
+    <!-- Tab 1: Products Panel -->
+    <section id="panelProducts">
+      <div class="section-header">
+        <h2>Product Catalog (CRUD)</h2>
+        <button class="btn-cart" onclick="openProductModal()"><i class="fa-solid fa-plus"></i> Add New Product</button>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Price / MRP</th>
+            <th>Unit</th>
+            <th>Stock</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="productsTableBody">
+          <!-- Rendered via admin.js -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Tab 2: Categories Panel -->
+    <section id="panelCategories" style="display: none;">
+      <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 24px;">
+        <div style="background: white; padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
+          <h3>Add Category</h3>
+          <form id="addCategoryForm" style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px;">
+            <input type="text" id="catNameInput" placeholder="Category Name (e.g. Organic Dairy)" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+            <input type="text" id="catIconInput" placeholder="Emoji Icon (e.g. 🥛)" value="🛒" style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+            <input type="text" id="catDescInput" placeholder="Short Description" style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+            <button type="submit" class="btn-cart" style="width: 100%;">Create Category</button>
+          </form>
+        </div>
+
+        <div>
+          <h3>Category List</h3>
+          <table class="data-table" style="margin-top: 16px;">
+            <thead>
+              <tr>
+                <th>Icon</th>
+                <th>Name</th>
+                <th>Slug</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="categoriesTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 3: Orders Panel -->
+    <section id="panelOrders" style="display: none;">
+      <div class="section-header">
+        <h2>Live Customer Orders Status Control</h2>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer & Phone</th>
+            <th>Items</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="ordersTableBody">
+          <!-- Rendered via admin.js -->
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <!-- Product Add / Edit Modal -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-card">
+      <div class="section-header">
+        <h3 class="modal-title" id="productModalTitle">Add New Product</h3>
+        <button class="btn-close-drawer" onclick="closeProductModal()">&times;</button>
+      </div>
+
+      <form id="productForm" style="display: flex; flex-direction: column; gap: 14px;">
+        <input type="hidden" id="prodEditId">
+        <div>
+          <label style="font-size: 13px; font-weight: 700;">Product Title</label>
+          <input type="text" id="prodTitle" placeholder="e.g. Fresh Paneer 200g" required style="width:100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 13px; font-weight: 700;">Category</label>
+            <select id="prodCategorySelect" required style="width:100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 13px; font-weight: 700;">Unit Weight/Vol</label>
+            <input type="text" id="prodUnit" placeholder="e.g. 200 g" required style="width:100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 13px; font-weight: 700;">Selling Price (₹)</label>
+            <input type="number" id="prodPrice" placeholder="90" required style="width:100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+          </div>
+          <div>
+            <label style="font-size: 13px; font-weight: 700;">MRP Price (₹)</label>
+            <input type="number" id="prodMrp" placeholder="100" required style="width:100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+          </div>
+          <div>
+            <label style="font-size: 13px; font-weight: 700;">Stock Qty</label>
+            <input type="number" id="prodStock" placeholder="50" required style="width:100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 13px; font-weight: 700;">Image URL</label>
+          <input type="url" id="prodImage" placeholder="https://images.unsplash.com/..." required style="width:100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+        </div>
+
+        <div>
+          <label style="font-size: 13px; font-weight: 700;">Description</label>
+          <textarea id="prodDescription" rows="2" placeholder="Product details..." style="width:100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;"></textarea>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="prodFeatured">
+          <label for="prodFeatured" style="font-size: 14px; font-weight: 600;">Feature on Store Homepage</label>
+        </div>
+
+        <button type="submit" class="btn-cart" style="width: 100%; margin-top: 10px;">Save Product</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

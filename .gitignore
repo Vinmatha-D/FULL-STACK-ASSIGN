@@ -1,0 +1,6 @@
+node_modules/
+.env
+*.log
+.DS_Store
+FULL_STACK_ASSIGN.zip
+full stack

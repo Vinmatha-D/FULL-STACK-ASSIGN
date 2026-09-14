@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlinkGo | Everything delivered in 10 minutes</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-logo">Blink<span>Go</span></div>
+      </a>
+
+      <div class="location-badge" id="locationBadge">
+        <div class="time">⚡ 8 MINS</div>
+        <div class="address" id="currentAddressLabel">Koramangala, Bengaluru...</div>
+      </div>
+
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="searchInput" placeholder='Search "milk", "bananas", "chips"...'>
+      </div>
+
+      <div class="nav-actions">
+        <button class="btn-nav" id="btnMyOrders">
+          <i class="fa-solid fa-box-open"></i> Orders
+        </button>
+        <a href="admin.html" class="btn-nav">
+          <i class="fa-solid fa-user-gear"></i> Admin Portal
+        </a>
+        <button class="btn-cart" id="btnOpenCart">
+          <i class="fa-solid fa-cart-shopping"></i> My Cart
+          <span class="cart-count-badge" id="cartCountBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="container">
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+      <div class="hero-content">
+        <h1>India's Last Minute App ⚡</h1>
+        <p>Fresh groceries, milk, fruits & daily essentials delivered in 8 - 10 minutes.</p>
+        <div class="hero-pills">
+          <div class="hero-pill"><i class="fa-solid fa-clock"></i> 10 Min Express</div>
+          <div class="hero-pill"><i class="fa-solid fa-shield-halved"></i> 100% Quality Assurance</div>
+          <div class="hero-pill"><i class="fa-solid fa-truck-fast"></i> Free Delivery > ₹300</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Category Filter Bar -->
+    <div class="category-bar" id="categoryBar">
+      <!-- Category pills will be injected dynamically via app.js -->
+    </div>
+
+    <!-- Section Header & Controls -->
+    <div class="section-header">
+      <h2 id="sectionTitle">All Fresh Products</h2>
+      <select id="sortSelect" class="sort-select">
+        <option value="latest">Sort by: Featured</option>
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
+        <option value="rating">Top Rated</option>
+      </select>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="products-grid" id="productsGrid">
+      <!-- Product cards will be injected dynamically via app.js -->
+    </div>
+  </main>
+
+  <!-- Slide-out Cart Drawer Overlay -->
+  <div class="cart-drawer-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="drawer-header">
+      <h3><i class="fa-solid fa-bag-shopping"></i> My Cart</h3>
+      <button class="btn-close-drawer" id="btnCloseCart">&times;</button>
+    </div>
+    
+    <div class="drawer-body" id="cartBody">
+      <!-- Cart items or empty view injected dynamically -->
+    </div>
+
+    <div class="drawer-footer" id="cartFooter">
+      <button class="btn-checkout" id="btnProceedCheckout">
+        <span id="cartTotalText">Total: ₹0</span>
+        <span>Proceed to Checkout <i class="fa-solid fa-arrow-right"></i></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Address Selection & Checkout Modal -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal-card">
+      <div class="section-header">
+        <h3 class="modal-title">Select Delivery Address</h3>
+        <button class="btn-close-drawer" id="btnCloseCheckoutModal">&times;</button>
+      </div>
+
+      <div id="addressList" style="margin-bottom: 20px;">
+        <!-- Saved addresses rendered here -->
+      </div>
+
+      <div style="background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
+        <h4 style="font-size: 14px; margin-bottom: 10px;">+ Add New Address</h4>
+        <form id="newAddressForm" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <input type="text" id="addrName" placeholder="Full Name" required style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+          <input type="text" id="addrPhone" placeholder="Mobile Number" required style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+          <input type="text" id="addrHouse" placeholder="House / Flat No." required style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+          <input type="text" id="addrStreet" placeholder="Street / Area" required style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+          <input type="text" id="addrCity" placeholder="City" value="Bengaluru" required style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+          <input type="text" id="addrPincode" placeholder="Pincode" value="560034" required style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+          <button type="submit" class="btn-add" style="grid-column: span 2;">Save Address</button>
+        </form>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <h4 style="font-size: 14px; margin-bottom: 8px;">Payment Method</h4>
+        <select id="paymentMethodSelect" class="sort-select" style="width: 100%;">
+          <option value="Cash on Delivery">💵 Cash on Delivery (Pay at Doorstep)</option>
+          <option value="UPI / Instant Pay">📱 UPI / GPay / PhonePe</option>
+          <option value="Credit / Debit Card">💳 Credit / Debit Card</option>
+        </select>
+      </div>
+
+      <button class="btn-checkout" id="btnConfirmOrder" style="width: 100%;">
+        <span>Confirm & Place Order</span>
+        <i class="fa-solid fa-circle-check"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Live Order Tracker Modal -->
+  <div class="modal-overlay" id="orderTrackerModal">
+    <div class="modal-card">
+      <div class="section-header">
+        <h3 class="modal-title">Live Order Status ⚡</h3>
+        <button class="btn-close-drawer" id="btnCloseTrackerModal">&times;</button>
+      </div>
+
+      <div class="tracker-status-box">
+        <div class="tracker-id" id="trackerOrderId">Order #BLK-00000</div>
+        <div class="tracker-state" id="trackerStatusText">Order Placed</div>
+        <div class="tracker-eta" id="trackerEtaText">Estimated Delivery: 10 Mins</div>
+      </div>
+
+      <div class="timeline" id="orderTimeline">
+        <div class="timeline-step completed" id="stepPlaced">
+          <div class="timeline-dot"><i class="fa-solid fa-check"></i></div>
+          <div class="timeline-title">Order Received</div>
+          <div class="timeline-sub">Store confirmed your order</div>
+        </div>
+
+        <div class="timeline-step" id="stepPacking">
+          <div class="timeline-dot"><i class="fa-solid fa-box"></i></div>
+          <div class="timeline-title">Packing Essentials</div>
+          <div class="timeline-sub">Store executive is packing items</div>
+        </div>
+
+        <div class="timeline-step" id="stepOutForDelivery">
+          <div class="timeline-dot"><i class="fa-solid fa-motorcycle"></i></div>
+          <div class="timeline-title">Out for Delivery</div>
+          <div class="timeline-sub">Rider speed-delivering to your doorstep</div>
+        </div>
+
+        <div class="timeline-step" id="stepDelivered">
+          <div class="timeline-dot"><i class="fa-solid fa-house"></i></div>
+          <div class="timeline-title">Delivered</div>
+          <div class="timeline-sub">Order handed over with care</div>
+        </div>
+      </div>
+
+      <div id="trackerItemsList" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 14px;">
+        <!-- Order item details rendered here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Order History List Modal -->
+  <div class="modal-overlay" id="ordersListModal">
+    <div class="modal-card" style="max-width: 600px;">
+      <div class="section-header">
+        <h3 class="modal-title">My Order History</h3>
+        <button class="btn-close-drawer" id="btnCloseOrdersListModal">&times;</button>
+      </div>
+      <div id="allOrdersContainer">
+        <!-- Render list of past orders -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
