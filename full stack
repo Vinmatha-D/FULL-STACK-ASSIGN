@@ -1,0 +1,21 @@
+# 📦 FULL_STACK_ASSIGN.zip (0.22 MB / 220 KB)
+
+The project has been compressed into a lightweight zip file (**220 KB**, well under 25 MB).
+
+### File Locations:
+
+1. **In your project folder (Desktop):**
+   - [`C:\Users\Vinmatha D\OneDrive\Desktop\FULL STACK ASSIGN\FULL_STACK_ASSIGN.zip`](file:///c:/Users/Vinmatha%20D/OneDrive/Desktop/FULL%20STACK%20ASSIGN/FULL_STACK_ASSIGN.zip)
+
+2. **In Artifacts (Direct Download Link):**
+   - [Click here to open/download FULL_STACK_ASSIGN.zip](file:///C:/Users/Vinmatha%20D/.gemini/antigravity-ide/brain/008cb2fe-65a7-4e86-b010-4811d94e6449/FULL_STACK_ASSIGN.zip)
+
+---
+
+### What's inside the Zip file?
+- All source code files (`server.js`, `seedData.js`, `routes/`, `models/`, `package.json`, `package-lock.json`)
+- Optimized frontend (`public/index.html`, `public/admin.html`, `public/styles.css`, `public/app.js`, `public/admin.js`)
+- Optimized product images (`public/images/`)
+- `.gitignore` file
+
+*(Note: `node_modules` is excluded as per standard Node.js practices. Running `npm install` inside the unzipped folder will recreate `node_modules` in seconds).*
